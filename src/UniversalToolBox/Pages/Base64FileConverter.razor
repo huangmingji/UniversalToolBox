@@ -1,0 +1,77 @@
+@page "/base64-file-converter"
+
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">文件转Base64</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                    <ButtonTemplate>
+                        <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="@context.Id">
+                            选择文件
+                        </MudButton>
+                    </ButtonTemplate>
+                </MudFileUpload>
+                <MudText Typo="Typo.body2" Class="mt-4 text-secondary">仅限于转换1M以下的文件</MudText>
+                <textarea id="FileBase64" rows="20" class="mt-4" style="width: 100%; border: 1px solid #bcbebf;">
+                    @FileBase64
+                </textarea>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy()">复制Base64字符串</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string FileBase64 { get; set; }
+
+    private void Copy()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('FileBase64').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("Base64已复制", Severity.Success);
+    }
+
+    private async Task UploadFiles(IBrowserFile browserFile)
+    {
+        try
+        {
+            int maxSize = 1 * 1024 * 1024;
+            if (browserFile.Size > 1 * 1024 * 1024)
+            {
+                Snackbar.Add($"文件大小不能超过{maxSize / 1024 / 1024}M", Severity.Error);
+                return;
+            }
+            
+            // 读取文件字节  
+            Stream stream = browserFile.OpenReadStream(browserFile.Size);
+            byte[] fileBytes = new byte [stream.Length];
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                if (stream.CanSeek)
+                    stream.Position = 0L;
+                await stream.CopyToAsync(memoryStream, fileBytes.Length).ConfigureAwait(false);
+                fileBytes = memoryStream.ToArray();
+            }
+            // 将文件字节转换为带有数据URI方案的Base64编码字符串
+            FileBase64 = $"data:{browserFile.ContentType};base64,{Convert.ToBase64String(fileBytes)}";
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Clear();
+            Snackbar.Add(ex.StackTrace, Severity.Error);
+        }
+    }
+}

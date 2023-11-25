@@ -414,32 +414,60 @@ namespace Common.Extend
             return pwd;
         }
 
-        // /// <summary>
-        // /// SHA1加密
-        // /// </summary>
-        // /// <param name="str"></param>
-        // /// <returns></returns>
-        // public static string SHA1(this string str)
-        // {
-        //     byte[] data = System.Text.Encoding.Default.GetBytes(str);//以字节方式存储
-        //     System.Security.Cryptography.SHA1 sha1 = System.Security.Cryptography.SHA1.Create();
-        //     byte[] result = sha1.ComputeHash(data);//得到哈希值
-        //     return System.BitConverter.ToString(result).Replace("-", "").ToLower(); //转换成为字符串的显示
-        // }
-
         /// <summary>
         /// SHA1加密
         /// </summary>
         /// <param name="str"></param>
         /// <param name="charset"></param>
         /// <returns></returns>
-        public static string SHA1(this string str, string charset = "")
+        public static string Sha1Hash(this string input, string charset = "")
         {
-            byte[] data = string.IsNullOrWhiteSpace(charset) ? Encoding.Default.GetBytes(str) : Encoding.GetEncoding(charset).GetBytes(str);//以字节方式存储
-            System.Security.Cryptography.SHA1 sha1 = System.Security.Cryptography.SHA1.Create();
+            byte[] data = string.IsNullOrWhiteSpace(charset) ? Encoding.Default.GetBytes(input) : Encoding.GetEncoding(charset).GetBytes(input);//以字节方式存储
+            var sha1 = SHA1.Create();
             byte[] result = sha1.ComputeHash(data);//得到哈希值
             return System.BitConverter.ToString(result).Replace("-", "").ToLower(); //转换成为字符串的显示
         }
+
+        public static string Sha256Hash(this string input)
+        {
+            // 创建一个SHA256对象  
+            using SHA256 sha256Hash = SHA256.Create();
+            // 将输入字符串转换为字节数组  
+            byte[] bytes = Encoding.UTF8.GetBytes(input);
+
+            // 计算哈希值  
+            byte[] hash = sha256Hash.ComputeHash(bytes);
+
+            // 将哈希值转换为字符串  
+            StringBuilder builder = new StringBuilder();
+            foreach (var t in hash)
+            {
+                builder.Append(t.ToString("x2"));
+            }
+
+            return builder.ToString();
+        }
+        
+        public static string Sha512Hash(this string input)  
+        {  
+            // 创建一个SHA512对象  
+            using (SHA512 sha512Hash = SHA512.Create())  
+            {  
+                // 将输入字符串转换为字节数组  
+                byte[] bytes = Encoding.UTF8.GetBytes(input);  
+  
+                // 计算哈希值  
+                byte[] hash = sha512Hash.ComputeHash(bytes);  
+  
+                // 将哈希值转换为字符串  
+                StringBuilder builder = new StringBuilder();  
+                for (int i = 0; i < hash.Length; i++)  
+                {  
+                    builder.Append(hash[i].ToString("x2"));  
+                }  
+                return builder.ToString();  
+            }  
+        }  
 
         #endregion 加密解密        
     }

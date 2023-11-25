@@ -12,7 +12,7 @@
     <MudCardContent>
         <MudGrid>
             <MudItem xs="12">
-                <MudNumericField Class="mt-4" @bind-Value="KeySize" Label="位数" Variant="Variant.Text" Min="1024" Max="4096" />
+                <MudNumericField Class="mt-4" @bind-Value="KeySize" Label="位数" Variant="Variant.Text" Min="1024" Max="4096"/>
                 <MudButton Disabled="_processing" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="Generate">
                     @if (_processing)
                     {
@@ -22,20 +22,20 @@
                     else
                     {
                         <MudText>生成密钥对</MudText>
-                    }                        
+                    }
                 </MudButton>
             </MudItem>
             <MudItem xs="6">
-                @* <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"> *@
+                <MudPaper Elevation="0" Class="align-center justify-center mud-width-full py-8">
                     <MudTextField id="privateKey" ReadOnly="true" Class="mt-4" T="string" Label="私钥" Variant="Variant.Outlined" @bind-Value="@PrivateKey" Lines="30"/>
-                    <MudButton ButtonType="ButtonType.Button" FullWidth="true" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPrivateKey()">复制私钥</MudButton>
-                @* </MudPaper> *@
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPrivateKey()">复制私钥</MudButton>
+                </MudPaper>
             </MudItem>
             <MudItem xs="6">
-                @* <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"> *@
+                <MudPaper Elevation="0" Class="align-center justify-center mud-width-full py-8">
                     <MudTextField id="publicKey" ReadOnly="true" Class="mt-4" T="string" Label="公钥" Variant="Variant.Outlined" @bind-Value="@PublicKey" Lines="30"/>
-                    <MudButton ButtonType="ButtonType.Button" FullWidth="true" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPublicKey()">复制公钥</MudButton>
-                @* </MudPaper> *@
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPublicKey()">复制公钥</MudButton>
+                </MudPaper>
             </MudItem>
         </MudGrid>
     </MudCardContent>

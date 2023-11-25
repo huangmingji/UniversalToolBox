@@ -14,7 +14,7 @@
         <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@LowercaseLetters" Label="小写字母【abcdefghijklmnopqrstuvwxyz】"/>
         <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@UppercaseLetters" Label="大写字母【ABCDEFGHIJKLMNOPQRSTUVWXYZ】"/>
         <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@SpecialSymbols" Label="特殊符号【!#$%^&*()_+~】"/>
-        <MudNumericField Class="mt-4" @bind-Value="Length" Label="密码长度" Variant="Variant.Text" Min="8" Max="20"/>
+        <MudNumericField Class="mt-4" @bind-Value="Length" Label="密码长度" Variant="Variant.Text" Min="8" Max="64"/>
         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GeneratePassword()">生成随机密码</MudButton>
         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy()">复制</MudButton>
         <MudTextField id="password" Class="mt-4" T="string" Label="密码" Variant="Variant.Outlined" Text="@Password" Lines="3"/>

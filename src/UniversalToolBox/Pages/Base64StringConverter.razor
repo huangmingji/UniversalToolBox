@@ -1,0 +1,77 @@
+@page "/base64-string-converter"
+@using Common.Extend
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+
+<MudGrid>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">字符串转Base64</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="StringEncodeValue" Label="字符串" Variant="Variant.Outlined" Lines="5" TextChanged="s => Base64Encode(s)" />
+                <MudTextField id="Base64EncodeString" @bind-Value="Base64EncodeString" Label="Base64字符串" Variant="Variant.Outlined" Lines="5" />
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy(nameof(Base64EncodeString))">复制Base64字符串</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Base64转字符串</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="Base64DecodeString" Label="Base64字符串" Variant="Variant.Outlined" Lines="5" TextChanged="s => Base64Decode(s)" />
+                <MudTextField id="StringDecodeValue" @bind-Value="StringDecodeValue" Label="字符串" Variant="Variant.Outlined" Lines="5" />
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy(nameof(StringDecodeValue))">复制字符串</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string StringEncodeValue { get; set; }
+    private string Base64EncodeString { get; set; }
+
+    private string Base64DecodeString { get; set; }
+    private string StringDecodeValue { get; set; }
+
+    private void Copy(string id)
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('" + id +"').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("文本已复制", Severity.Success);
+    }
+
+    private void Base64Encode(string encodeStr)
+    {
+        try
+        {
+            Base64EncodeString = encodeStr.Base64Encode();
+        }
+        catch (Exception e)
+        {
+            Snackbar.Clear();
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void Base64Decode(string base64Str)
+    {
+        try
+        {
+            StringDecodeValue = base64Str.Base64Decode();
+        }
+        catch (Exception e)
+        {
+            Snackbar.Clear();
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+}
