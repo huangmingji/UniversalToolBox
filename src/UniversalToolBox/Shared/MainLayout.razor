@@ -1,0 +1,42 @@
+﻿@inherits LayoutComponentBase
+
+@inject IDialogService DialogService
+
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="false" Style="@($"color:{Colors.Grey.Darken4}; background:{Colors.Shades.White};")">
+        <MudImage Src="/img/stargazer.png" Height="50"></MudImage>
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">万能工具箱</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Rounded.Cases" Color="Color.Inherit" Title="工具" OnClick="@((e) => OpenToolBox())" />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Title="GitHub源码地址" Href="https://github.com/huangmingji/UniversalToolBox" Target="_blank" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" ClipMode="@DrawerClipMode.Docked" Anchor="Anchor.Start">
+        <NavMenu />
+    </MudDrawer>
+    <Tools DrawerOpen="@_toolsOpen" ClipMode="@DrawerClipMode.Docked"></Tools>
+    <MudMainContent>
+        <MudContainer Class="mt-3" MaxWidth="MaxWidth.ExtraLarge" Style="min-height: 100%;">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+    private bool _toolsOpen = false;
+
+    private void DrawerToggle()
+    {
+        _drawerOpen =!_drawerOpen;
+    }
+
+    private void OpenToolBox()
+    {
+        _toolsOpen = !_toolsOpen;
+    }
+
+}

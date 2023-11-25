@@ -1,0 +1,31 @@
+﻿<MudPaper Class="py-3" Elevation="0">
+    <MudNavMenu Class="mud-width-full" Bordered="true">
+        @* <MudDivider Class="my-2" /> *@
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">控制面板</MudNavLink>
+        <MudNavLink Href="/money" Match="NavLinkMatch.All" Icon="@Icons.Material.Sharp.AttachMoney">理财小助手</MudNavLink>
+        <MudNavLink Href="/webapi" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.WebAsset">WebApi测试</MudNavLink>
+        <MudNavLink Href="/shortcut" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Shortcut">常用的网页工具</MudNavLink>
+        <MudNavGroup Title="Crypto" Expanded="true" Icon="@Icons.Material.Filled.EnhancedEncryption">
+            <MudNavLink Href="/random-token">随机密码生成</MudNavLink>
+            <MudNavLink Href="/hash-text">Hash 文本</MudNavLink>
+            <MudNavLink Href="/encryption">文本加解密</MudNavLink>
+            <MudNavLink Href="/rsa-key-pair-generator">RSA 密钥对生成器</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Title="Converter" Expanded="true" Icon="@Icons.Material.Outlined.TextSnippet">
+            <MudNavLink Href="/date-converter">时间转换器</MudNavLink>
+            <MudNavLink Href="/base-converter">进制转换器</MudNavLink>
+            <MudNavLink Href="/base64-string-converter">Base64 字符串转换</MudNavLink>
+            <MudNavLink Href="/base64-file-converter">Base64 文件转换器</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Title="Web" Expanded="true" Icon="@Icons.Material.Outlined.Web">
+            <MudNavLink Href="/url-encoder">URL 编码/解码</MudNavLink>
+            <MudNavLink Href="/html-entities">HTML转义</MudNavLink>
+            <MudNavLink Href="/url-parser">URL解析器</MudNavLink>
+            <MudNavLink Href="/otp-generator">OTP 码生成</MudNavLink>
+            <MudNavLink Href="/jwt-parser">JWT 转换器</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Title="Images" Expanded="true" Icon="@Icons.Material.Outlined.Image">
+            <MudNavLink Href="/ocr-recognition">OCR 识别</MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+</MudPaper>

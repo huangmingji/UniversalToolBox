@@ -1,0 +1,142 @@
+@page "/encryption"
+@using Ext = Common.Extend.Ext
+@using Common.Extend
+@using Common.Cryptography
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+
+<MudGrid>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">加密</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="EncryptionSaltKey" Label="Salt" Variant="Variant.Text" MaxLength="16" HelperText="长度固定为16字节（128位）"></MudTextField>
+                <MudTextField @bind-Value="EncryptionSecretKey" Label="密钥" Variant="Variant.Text"></MudTextField>
+                <MudTextField Class="mt-4" T="string" Label="明文" Variant="Variant.Outlined" @bind-Value="@EncryptionPlaintext" Lines="3"/>
+                <MudSelect Class="mt-4" T="string" Label="加密算法" @bind-Value="EncryptionAlgorithm" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("AES256")" />
+                    <MudSelectItem Value="@("AES128")" />
+                </MudSelect>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GenerateCiphertext()">生成密文</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyCiphertext()">复制密文</MudButton>
+                <MudTextField id="ciphertext" Class="mt-4" T="string" Label="密文" Variant="Variant.Outlined" @bind-Value="@EncryptionCiphertext" Lines="3"/>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">解密</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="DecryptionSaltKey" Label="Salt" Variant="Variant.Text" MaxLength="16" HelperText="长度固定为16字节（128位）"></MudTextField>
+                <MudTextField @bind-Value="DecryptionSecretKey" Label="密钥" Variant="Variant.Text"></MudTextField>
+                <MudTextField Class="mt-4" T="string" Label="密文" Variant="Variant.Outlined" @bind-Value="@DecryptionCiphertext" Lines="3"/>
+                <MudSelect Class="mt-4" T="string" Label="加密算法" @bind-Value="DecryptionAlgorithm" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("AES256")" />
+                    <MudSelectItem Value="@("AES128")" />
+                </MudSelect>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GeneratePlaintext()">生成明文</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPlaintext()">复制明文</MudButton>
+                <MudTextField id="plaintext" Class="mt-4" T="string" Label="明文" Variant="Variant.Outlined" @bind-Value="@DecryptionPlaintext" Lines="3"/>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string EncryptionSaltKey { get; set; }
+    private string EncryptionSecretKey { get; set; }
+    private string EncryptionPlaintext { get; set; }
+    private string EncryptionCiphertext { get; set; }
+    private string EncryptionAlgorithm { get; set; } = "AES256";
+    
+    
+    private string DecryptionSaltKey { get; set; }
+    private string DecryptionSecretKey { get; set; }
+    private string DecryptionPlaintext { get; set; }
+    private string DecryptionCiphertext { get; set; }
+    private string DecryptionAlgorithm { get; set; } = "AES256";
+
+    protected override void OnInitialized()
+    {
+        EncryptionSaltKey = Ext.CreateNonceStr(16);
+        EncryptionSecretKey = Ext.CreateNonceStr(64, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+        DecryptionSaltKey = EncryptionSaltKey;
+        DecryptionSecretKey = EncryptionSecretKey;
+        base.OnInitialized();
+    }
+    
+    private void CopyCiphertext()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('ciphertext').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("密文已复制", Severity.Success);
+    }
+
+    private void GenerateCiphertext()
+    {
+        if (EncryptionSaltKey.Length != 16)
+        {
+            Snackbar.Add("salt长度固定为16字节（128位）", Severity.Error);
+            return;
+        }
+        
+        try
+        {
+            switch (EncryptionAlgorithm)
+            {
+                case "AES256":
+                    EncryptionCiphertext = Cryptography.Aes256Encrypt(EncryptionPlaintext, EncryptionSaltKey, EncryptionSecretKey);
+                    break;
+                case "AES128":
+                    EncryptionCiphertext = Cryptography.Aes128Encrypt(EncryptionPlaintext, EncryptionSaltKey, EncryptionSecretKey);
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void GeneratePlaintext()
+    {
+        if (DecryptionSaltKey.Length != 16)
+        {
+            Snackbar.Add("salt长度固定为16字节（128位）", Severity.Error);
+            return;
+        }
+        try
+        {
+            switch (DecryptionAlgorithm)
+            {
+                case "AES256":
+                    DecryptionPlaintext = Cryptography.Aes256Decrypt(DecryptionCiphertext, DecryptionSaltKey, DecryptionSecretKey);
+                    break;
+                case "AES128":
+                    DecryptionPlaintext = Cryptography.Aes128Decrypt(DecryptionCiphertext , DecryptionSaltKey, DecryptionSecretKey);
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void CopyPlaintext()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('plaintext').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("明文已复制", Severity.Success);
+    }
+}

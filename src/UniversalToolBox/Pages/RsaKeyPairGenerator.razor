@@ -1,0 +1,100 @@
+@page "/rsa-key-pair-generator"
+@using Generator = Common.Cryptography.RsaKeyPairGenerator
+@using System.Text
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">RSA 密钥对生成器</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudNumericField Class="mt-4" @bind-Value="KeySize" Label="位数" Variant="Variant.Text" Min="1024" Max="4096" />
+                <MudButton Disabled="_processing" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="Generate">
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                        <MudText Class="ms-2">正在生成密钥对</MudText>
+                    }
+                    else
+                    {
+                        <MudText>生成密钥对</MudText>
+                    }                        
+                </MudButton>
+            </MudItem>
+            <MudItem xs="6">
+                @* <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"> *@
+                    <MudTextField id="privateKey" ReadOnly="true" Class="mt-4" T="string" Label="私钥" Variant="Variant.Outlined" @bind-Value="@PrivateKey" Lines="30"/>
+                    <MudButton ButtonType="ButtonType.Button" FullWidth="true" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPrivateKey()">复制私钥</MudButton>
+                @* </MudPaper> *@
+            </MudItem>
+            <MudItem xs="6">
+                @* <MudPaper Elevation="0" Class="d-flex align-center justify-center mud-width-full py-8"> *@
+                    <MudTextField id="publicKey" ReadOnly="true" Class="mt-4" T="string" Label="公钥" Variant="Variant.Outlined" @bind-Value="@PublicKey" Lines="30"/>
+                    <MudButton ButtonType="ButtonType.Button" FullWidth="true" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPublicKey()">复制公钥</MudButton>
+                @* </MudPaper> *@
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+@code
+{
+    private bool _processing = false;
+    private string PrivateKey { get; set; }
+    private string PublicKey { get; set; }
+    private int KeySize { get; set; } = 1024;
+
+    protected override void OnInitialized()
+    {
+        Generate();
+        base.OnInitialized();
+    }
+
+    private void Generate()
+    {
+        _processing = true;
+        try
+        {
+            var result = Generator.GenerateKeys(KeySize);
+            StringBuilder privateVBuilder = new StringBuilder();
+            privateVBuilder.AppendLine("-----BEGIN RSA PRIVATE KEY-----");
+            privateVBuilder.AppendLine(result.Key);
+            privateVBuilder.AppendLine("-----END RSA PRIVATE KEY-----");
+            PrivateKey = privateVBuilder.ToString();
+                
+            StringBuilder publicBuilder = new StringBuilder();
+            publicBuilder.AppendLine("-----BEGIN PUBLIC KEY-----");
+            publicBuilder.AppendLine(result.Value);
+            publicBuilder.AppendLine("-----END PUBLIC KEY-----");
+            PublicKey = publicBuilder.ToString();
+            Snackbar.Clear();
+            Snackbar.Add("密钥对已生成", Severity.Success);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+        finally
+        {
+            _processing = false;
+        }
+    }
+
+    private void CopyPrivateKey()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('privateKey').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("私钥已复制", Severity.Success);
+    }
+
+    private void CopyPublicKey()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('publicKey').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("公钥已复制", Severity.Success);
+    }
+}

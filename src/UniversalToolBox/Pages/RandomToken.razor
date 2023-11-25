@@ -1,0 +1,68 @@
+@page "/random-token"
+@using Ext = Common.Extend.Ext
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">随机密码生成</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@Numbers" Label="普通数字【012345678】"/>
+        <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@LowercaseLetters" Label="小写字母【abcdefghijklmnopqrstuvwxyz】"/>
+        <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@UppercaseLetters" Label="大写字母【ABCDEFGHIJKLMNOPQRSTUVWXYZ】"/>
+        <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@SpecialSymbols" Label="特殊符号【!#$%^&*()_+~】"/>
+        <MudNumericField Class="mt-4" @bind-Value="Length" Label="密码长度" Variant="Variant.Text" Min="8" Max="20"/>
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GeneratePassword()">生成随机密码</MudButton>
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy()">复制</MudButton>
+        <MudTextField id="password" Class="mt-4" T="string" Label="密码" Variant="Variant.Outlined" Text="@Password" Lines="3"/>
+    </MudCardContent>
+</MudCard>
+
+@code
+{
+    private bool Numbers { get; set; } = true;
+    private bool UppercaseLetters { get; set; }
+    private bool LowercaseLetters { get; set; }
+    private bool SpecialSymbols { get; set; }
+    private int Length { get; set; } = 8;
+    private string Password { get; set; }
+
+    private void GeneratePassword()
+    {
+        if (!Numbers && !UppercaseLetters && !LowercaseLetters && !SpecialSymbols)
+        {
+            Snackbar.Clear();
+            Snackbar.Add("至少选择其中一个条件", Severity.Error);
+            return;
+        }
+        string key = "";
+        if (Numbers)
+        {
+            key += "0123456789";
+        }
+        if (UppercaseLetters)
+        {
+            key += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        }
+        if (LowercaseLetters)
+        {
+            key += "abcdefghijklmnopqrstuvwxyz";
+        }
+        if (SpecialSymbols)
+        {
+            key += "!#$%^&*()_+~";
+        }
+
+        Password = Ext.CreateNonceStr(Length, key);
+    }
+    
+    private void Copy()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('password').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("密码已复制", Severity.Success);
+    }
+}

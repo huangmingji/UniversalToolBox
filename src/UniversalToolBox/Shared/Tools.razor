@@ -1,0 +1,15 @@
+<MudDrawer @bind-Open="@DrawerOpen" ClipMode="@ClipMode" Anchor="@Anchor.End" Width="500px" Elevation="1" Variant="@DrawerVariant.Responsive">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">工具</MudText>
+    </MudDrawerHeader>
+    
+</MudDrawer>
+
+@code
+{
+    [Parameter]
+    public bool DrawerOpen { get; set; }
+
+    [Parameter]
+    public DrawerClipMode ClipMode { get; set; }
+}
