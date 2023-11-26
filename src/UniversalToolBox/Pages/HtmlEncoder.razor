@@ -1,0 +1,61 @@
+@page "/html-entities"
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+
+<MudText Class="mt-5" Typo="Typo.h5">HTML 转义</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">HTML 编码</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="HTMLEncodeValue" Label="字符串" Variant="Variant.Outlined" Lines="5" TextChanged="s => Encode(s)" />
+                <MudTextField Class="mt-4" id="HTMLEncodeString" @bind-Value="HTMLEncodeString" Label="编码字符" Variant="Variant.Outlined" Lines="5" />
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy(nameof(HTMLEncodeString))">复制</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">HTML 解码</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="HTMLDecodeString" Label="编码字符" Variant="Variant.Outlined" Lines="5" TextChanged="s => Decode(s)" />
+                <MudTextField Class="mt-4" id="HTMLDecodeValue" @bind-Value="HTMLDecodeValue" Label="字符串" Variant="Variant.Outlined" Lines="5" />
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy(nameof(HTMLDecodeValue))">复制</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string HTMLEncodeValue { get; set; } = "<PageTitle>HTMl 编码/解码</PageTitle>";
+    private string HTMLEncodeString { get; set; }
+
+    private string HTMLDecodeString { get; set; } = "&lt;PageTitle&gt;HTMl 编码/解码&lt;/PageTitle&gt;";
+    private string HTMLDecodeValue { get; set; }
+
+    private void Encode(string s)
+    {
+        HTMLEncodeString = System.Web.HttpUtility.HtmlEncode(s);
+    }
+
+    private void Decode(string s)
+    {
+        HTMLDecodeValue = System.Web.HttpUtility.HtmlDecode(s);
+    }
+
+    private void Copy(string id)
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('" + id + "').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("已复制", Severity.Success);
+    }
+}

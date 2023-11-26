@@ -1,0 +1,141 @@
+@using Ext = Common.Extend.Ext
+@using Common.Cryptography
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+
+<MudText Class="mt-5" Typo="Typo.h5">AES加密/解密</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">AES加密</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="AesEncryptionSaltKey" Label="Salt" Variant="Variant.Text" MaxLength="16" HelperText="长度固定为16字节（128位）"></MudTextField>
+                <MudTextField @bind-Value="AesEncryptionSecretKey" Label="密钥" Variant="Variant.Text"></MudTextField>
+                <MudTextField Class="mt-4" T="string" Label="明文" Variant="Variant.Outlined" @bind-Value="@AesEncryptionPlaintext" Lines="3"/>
+                <MudSelect Class="mt-4" T="string" Label="加密算法" @bind-Value="AesEncryptionAlgorithm" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("AES256")" />
+                    <MudSelectItem Value="@("AES128")" />
+                </MudSelect>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GenerateAesCiphertext()">生成密文</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyAesCiphertext()">复制密文</MudButton>
+                <MudTextField id="aes_ciphertext" Class="mt-4" T="string" Label="密文" Variant="Variant.Outlined" @bind-Value="@AesEncryptionCiphertext" Lines="3"/>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">AES解密</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="AesDecryptionSaltKey" Label="Salt" Variant="Variant.Text" MaxLength="16" HelperText="长度固定为16字节（128位）"></MudTextField>
+                <MudTextField @bind-Value="AesDecryptionSecretKey" Label="密钥" Variant="Variant.Text"></MudTextField>
+                <MudTextField Class="mt-4" T="string" Label="密文" Variant="Variant.Outlined" @bind-Value="@AesDecryptionCiphertext" Lines="3"/>
+                <MudSelect Class="mt-4" T="string" Label="加密算法" @bind-Value="AesDecryptionAlgorithm" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("AES256")" />
+                    <MudSelectItem Value="@("AES128")" />
+                </MudSelect>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GenerateAesPlaintext()">生成明文</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyAesPlaintext()">复制明文</MudButton>
+                <MudTextField id="aes_plaintext" Class="mt-4" T="string" Label="明文" Variant="Variant.Outlined" @bind-Value="@AesDecryptionPlaintext" Lines="3"/>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string AesEncryptionSaltKey { get; set; }
+    private string AesEncryptionSecretKey { get; set; }
+    private string AesEncryptionPlaintext { get; set; }
+    private string AesEncryptionCiphertext { get; set; }
+    private string AesEncryptionAlgorithm { get; set; } = "AES256";
+    
+    
+    private string AesDecryptionSaltKey { get; set; }
+    private string AesDecryptionSecretKey { get; set; }
+    private string AesDecryptionPlaintext { get; set; }
+    private string AesDecryptionCiphertext { get; set; }
+    private string AesDecryptionAlgorithm { get; set; } = "AES256";
+
+    protected override void OnInitialized()
+    {
+        AesEncryptionSaltKey = Ext.CreateNonceStr(16);
+        AesEncryptionSecretKey = Ext.CreateNonceStr(64, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+        AesDecryptionSaltKey = AesEncryptionSaltKey;
+        AesDecryptionSecretKey = AesEncryptionSecretKey;
+        base.OnInitialized();
+    }
+    
+    private void CopyAesCiphertext()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('aes_ciphertext').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("密文已复制", Severity.Success);
+    }
+
+    private void GenerateAesCiphertext()
+    {
+        if (AesEncryptionSaltKey.Length != 16)
+        {
+            Snackbar.Add("salt长度固定为16字节（128位）", Severity.Error);
+            return;
+        }
+        
+        try
+        {
+            switch (AesEncryptionAlgorithm)
+            {
+                case "AES256":
+                    AesEncryptionCiphertext = Cryptography.Aes256Encrypt(AesEncryptionPlaintext, AesEncryptionSaltKey, AesEncryptionSecretKey);
+                    break;
+                case "AES128":
+                    AesEncryptionCiphertext = Cryptography.Aes128Encrypt(AesEncryptionPlaintext, AesEncryptionSaltKey, AesEncryptionSecretKey);
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void GenerateAesPlaintext()
+    {
+        if (AesDecryptionSaltKey.Length != 16)
+        {
+            Snackbar.Add("salt长度固定为16字节（128位）", Severity.Error);
+            return;
+        }
+        try
+        {
+            switch (AesDecryptionAlgorithm)
+            {
+                case "AES256":
+                    AesDecryptionPlaintext = Cryptography.Aes256Decrypt(AesDecryptionCiphertext, AesDecryptionSaltKey, AesDecryptionSecretKey);
+                    break;
+                case "AES128":
+                    AesDecryptionPlaintext = Cryptography.Aes128Decrypt(AesDecryptionCiphertext , AesDecryptionSaltKey, AesDecryptionSecretKey);
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void CopyAesPlaintext()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('aes_plaintext').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("明文已复制", Severity.Success);
+    }
+}

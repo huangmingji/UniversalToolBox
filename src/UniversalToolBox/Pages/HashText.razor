@@ -3,12 +3,16 @@
 @inject IJSRuntime JsRuntime
 @inject ISnackbar Snackbar
 
-<MudCard Elevation="1">
-    <MudCardHeader>
-        <CardHeaderContent>
-            <MudText Typo="Typo.h6">Hash 文本</MudText>
-        </CardHeaderContent>
-    </MudCardHeader>
+<MudText Class="mt-5" Typo="Typo.h5">Hash 文本</MudText>
+<MudText Typo="Typo.body2">
+    将文本转换成MD5、SHA1、SHA256、SHA512字符串。
+</MudText>
+<MudCard Class="mt-5" Elevation="1">
+    @* <MudCardHeader> *@
+    @*     <CardHeaderContent> *@
+    @*         <MudText Typo="Typo.h6">Hash 文本</MudText> *@
+    @*     </CardHeaderContent> *@
+    @* </MudCardHeader> *@
     <MudCardContent>
         <MudTextField Class="mt-4" T="string" Label="文本" Variant="Variant.Outlined" @bind-Value="@Text" Lines="3" TextChanged="s => OnTextChange(s)"/>
         <MudText Typo="Typo.h5" Class="mt-4 mud-text-secondary">编码</MudText>

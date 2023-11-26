@@ -1,0 +1,61 @@
+@page "/url-encoder"
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+
+<MudText Class="mt-5" Typo="Typo.h5">URL 编码/解码</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">URL 编码</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="UrlEncodeValue" Label="字符串" Variant="Variant.Outlined" Lines="5" TextChanged="s => Encode(s)" />
+                <MudTextField Class="mt-4" id="UrlEncodeString" @bind-Value="UrlEncodeString" Label="编码字符" Variant="Variant.Outlined" Lines="5" />
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy(nameof(UrlEncodeString))">复制</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">URL 解码</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="UrlDecodeString" Label="编码字符" Variant="Variant.Outlined" Lines="5" TextChanged="s => Decode(s)" />
+                <MudTextField Class="mt-4" id="UrlDecodeValue" @bind-Value="UrlDecodeValue" Label="字符串" Variant="Variant.Outlined" Lines="5" />
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => Copy(nameof(UrlDecodeValue))">复制</MudButton>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string UrlEncodeValue { get; set; } = "http://www.baidu.com";
+    private string UrlEncodeString { get; set; }
+
+    private string UrlDecodeString { get; set; } = "http%3a%2f%2fwww.baidu.com";
+    private string UrlDecodeValue { get; set; }
+
+    private void Encode(string s)
+    {
+        UrlEncodeString = System.Web.HttpUtility.UrlEncode(s);
+    }
+
+    private void Decode(string s)
+    {
+        UrlDecodeValue = System.Web.HttpUtility.UrlDecode(s);
+    }
+
+    private void Copy(string id)
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('" + id + "').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("已复制", Severity.Success);
+    }
+}

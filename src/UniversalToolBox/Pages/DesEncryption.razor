@@ -1,0 +1,115 @@
+@using Ext = Common.Extend.Ext
+@using Common.Cryptography
+@inject ISnackbar Snackbar
+@inject IJSRuntime JsRuntime
+
+<MudText Typo="Typo.h5" Class="mt-5">DES加密/解密</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">DES加密</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="EncryptionSaltKey" Label="Salt" Variant="Variant.Text" MaxLength="8" HelperText="长度固定为8字节"></MudTextField>
+                <MudTextField @bind-Value="EncryptionSecretKey" Label="密钥" Variant="Variant.Text"></MudTextField>
+                <MudTextField Class="mt-4" T="string" Label="明文" Variant="Variant.Outlined" @bind-Value="@EncryptionPlaintext" Lines="3"/>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GenerateCiphertext()">生成密文</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyCiphertext()">复制密文</MudButton>
+                <MudTextField id="ciphertext" Class="mt-4" T="string" Label="密文" Variant="Variant.Outlined" @bind-Value="@EncryptionCiphertext" Lines="3"/>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">DES解密</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="DecryptionSaltKey" Label="Salt" Variant="Variant.Text" MaxLength="8" HelperText="长度固定为8字节"></MudTextField>
+                <MudTextField @bind-Value="DecryptionSecretKey" Label="密钥" Variant="Variant.Text"></MudTextField>
+                <MudTextField Class="mt-4" T="string" Label="密文" Variant="Variant.Outlined" @bind-Value="@DecryptionCiphertext" Lines="3"/>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-4" OnClick="() => GeneratePlaintext()">生成明文</MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Default" Class="ml-3 mt-4" OnClick="() => CopyPlaintext()">复制明文</MudButton>
+                <MudTextField id="plaintext" Class="mt-4" T="string" Label="明文" Variant="Variant.Outlined" @bind-Value="@DecryptionPlaintext" Lines="3"/>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string EncryptionSaltKey { get; set; }
+    private string EncryptionSecretKey { get; set; }
+    private string EncryptionPlaintext { get; set; }
+    private string EncryptionCiphertext { get; set; }
+    
+    
+    private string DecryptionSaltKey { get; set; }
+    private string DecryptionSecretKey { get; set; }
+    private string DecryptionPlaintext { get; set; }
+    private string DecryptionCiphertext { get; set; }
+
+    protected override void OnInitialized()
+    {
+        EncryptionSaltKey = Ext.CreateNonceStr(8);
+        EncryptionSecretKey = Ext.CreateNonceStr(8, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+        DecryptionSaltKey = EncryptionSaltKey;
+        DecryptionSecretKey = EncryptionSecretKey;
+        base.OnInitialized();
+    }
+    
+    private void CopyCiphertext()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('ciphertext').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("密文已复制", Severity.Success);
+    }
+
+    private void GenerateCiphertext()
+    {
+        if (EncryptionSaltKey.Length != 8)
+        {
+            Snackbar.Add("salt长度固定为8字节", Severity.Error);
+            return;
+        }
+        
+        try
+        {
+            EncryptionCiphertext = Cryptography.DesEncrypt(EncryptionPlaintext, EncryptionSaltKey, EncryptionSecretKey);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void GeneratePlaintext()
+    {
+        if (DecryptionSaltKey.Length != 8)
+        {
+            Snackbar.Add("salt长度固定为8字节", Severity.Error);
+            return;
+        }
+        try
+        {
+            DecryptionPlaintext = Cryptography.DesDecrypt(DecryptionCiphertext, DecryptionSaltKey, DecryptionSecretKey);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+    }
+
+    private void CopyPlaintext()
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('plaintext').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("明文已复制", Severity.Success);
+    }
+}

@@ -3,12 +3,8 @@
 @inject ISnackbar Snackbar
 @inject IJSRuntime JsRuntime
 
-<MudCard>
-    <MudCardHeader>
-        <CardHeaderContent>
-            <MudText Typo="Typo.h6">随机密码生成</MudText>
-        </CardHeaderContent>
-    </MudCardHeader>
+<MudText Class="mt-5" Typo="Typo.h5">随机密码生成</MudText>
+<MudCard Class="mt-5">
     <MudCardContent>
         <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@Numbers" Label="普通数字【012345678】"/>
         <MudSwitch Class="mt-4" Color="Color.Primary" @bind-Checked="@LowercaseLetters" Label="小写字母【abcdefghijklmnopqrstuvwxyz】"/>

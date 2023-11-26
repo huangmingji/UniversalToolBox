@@ -1,7 +1,167 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<MudText Typo="Typo.h5" Class="mt-5 text-secondary">常用工具</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="3">
+        <MudLink Href="/money" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">理财小能手</MudText>
+                        <MudText Typo="Typo.body2">记录每日开支，统计收入支出明细</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/shortcut" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">常用的网页工具</MudText>
+                        <MudText Typo="Typo.body2">常用的网页工具快捷方式</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+</MudGrid>
 
-Welcome to your new app.
+<MudText Typo="Typo.h5" Class="mt-5 text-secondary">开发工具</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="3">
+        <MudLink Href="/webapi" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">WebApi测试</MudText>
+                        <MudText Typo="Typo.body2">测试WebApi接口，进行压力测试</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+</MudGrid>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<MudText Typo="Typo.h5" Class="mt-10 text-secondary">Crypto</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="3">
+        <MudLink Href="/random-token" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">随机密码生成</MudText>
+                        <MudText Typo="Typo.body2">随机生成密码，可选择包含：大写或小写字母、数字和或符号。</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/hash-text" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">Hash 文本</MudText>
+                        <MudText Typo="Typo.body2">将文本转换成MD5、SHA1、SHA256、SHA512字符串。</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/encryption" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">文本加解密</MudText>
+                        <MudText Typo="Typo.body2">使用 AES、DES等加密算法对文本明文进行加密和解密。</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/rsa-key-pair-generator" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">RSA 密钥对生成器</MudText>
+                        <MudText Typo="Typo.body2">生成随机的 RSA 私钥和公钥</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+</MudGrid>
+
+<MudText Class="mt-10 text-secondary" Typo="Typo.h5" >Converter</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="3">
+        <MudLink Href="/base64-string-converter" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">Base64字符串转换</MudText>
+                        <MudText Typo="Typo.body2">将字符串编码和解码为 Base64 表示形式</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/base64-file-converter" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">文件转Base64</MudText>
+                        <MudText Typo="Typo.body2">将上传的文件转成Base64编码的数据。</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+</MudGrid>
+
+
+<MudText Class="mt-10 text-secondary" Typo="Typo.h5" >Web</MudText>
+<MudGrid Class="mt-5">
+    <MudItem xs="3">
+        <MudLink Href="/url-encoder" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">URL 编码/解码</MudText>
+                        <MudText Typo="Typo.body2">对URL 进行编码/解码。</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/html-entities" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">HTML 转义</MudText>
+                        <MudText Typo="Typo.body2">@("转义或取消转义 html 文本（将 <、>、&、\" 和 ' 替换为其 html 版本）。")</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+    <MudItem xs="3">
+        <MudLink Href="/url-parser" Underline="Underline.None">
+            <MudPaper Elevation="0">
+                <MudCard Style="height: 150px;">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6">URL 解析器</MudText>
+                        <MudText Typo="Typo.body2">解析 URL 字符串，获取 URL 各个部分的值。</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudPaper>
+        </MudLink>
+    </MudItem>
+</MudGrid>
+

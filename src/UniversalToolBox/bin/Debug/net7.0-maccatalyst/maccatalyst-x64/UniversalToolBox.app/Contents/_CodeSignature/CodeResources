@@ -119,18 +119,60 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>MonoBundle/BitMiracle.LibTiff.NET.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			9saBS2UEpCQM232bYzrYe7tnI7bTTlb9GZJwInpFMbg=
+			</data>
+		</dict>
 		<key>MonoBundle/Common.dll</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			SpmppFRJ4n5MZE/SGM1RVw5VyowL7TUHgGMDLbX9L2E=
+			+gpHasFQd2L2THCDVjBJmkgtfzrpGdvbRhqsHtRnQck=
 			</data>
 		</dict>
 		<key>MonoBundle/Common.pdb</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			t03q/F4OQQUSciFgy9l/AOVJUC+GSS1MXP31+yJewHg=
+			oV15Muuq3AhNFOTzokA54PGTC1WiVMyaxN5y73zs6NY=
+			</data>
+		</dict>
+		<key>MonoBundle/IronOcr.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			/6u3v0c+D6xvJqSdltqGDYTdqYghIuo3CxGpYfa9dCo=
+			</data>
+		</dict>
+		<key>MonoBundle/IronSoftware.Abstractions.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			6jUdpAAVqLgAg6RVSe9ybp16w4//gwQg0OGmdyUCEXQ=
+			</data>
+		</dict>
+		<key>MonoBundle/IronSoftware.Drawing.Common.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			O6P64mepoPcjpT+vPsZP7E1UmnV9a3TNjqnDHFQMQTc=
+			</data>
+		</dict>
+		<key>MonoBundle/IronSoftware.Logger.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FRghwTfbT1fY+PpHJzRjM2Rs7isIfTUTrZTic8KkiRk=
+			</data>
+		</dict>
+		<key>MonoBundle/IronSoftware.Shared.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			FVUVjFAnUq28qwqDhmvNgTe0usM/nrbtv04nS/1j7W0=
 			</data>
 		</dict>
 		<key>MonoBundle/Microsoft.AspNetCore.Authorization.dll</key>
@@ -406,11 +448,39 @@
 			oJxyOQTg7phYTOsv67SPg/7p1/3ZMibNbea6EonYS0M=
 			</data>
 		</dict>
+		<key>MonoBundle/Microsoft.Win32.SystemEvents.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			yklb9shrfwktYkkoEBmFqUFTLRSdzYrP6hcPilO+iFA=
+			</data>
+		</dict>
 		<key>MonoBundle/MudBlazor.dll</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			ft4KrOOXkXnKzszLSZbJucRdKNtFGflkw1AEg8qeefM=
+			</data>
+		</dict>
+		<key>MonoBundle/SixLabors.Fonts.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			W+gLxS+oYslRXSu22FZYccEnHI35JOzkEpP2JZM5QV4=
+			</data>
+		</dict>
+		<key>MonoBundle/SixLabors.ImageSharp.Drawing.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oYrzbJkJONMb6/ciU1nyyXV/nSWt2aejqRElLdMGCm8=
+			</data>
+		</dict>
+		<key>MonoBundle/SixLabors.ImageSharp.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Sx+KDGZg0FsAjDVo9uVGnvBxaBXYLdy118B9YsEuEa0=
 			</data>
 		</dict>
 		<key>MonoBundle/System.AppContext.dll</key>
@@ -502,6 +572,13 @@
 			<key>hash2</key>
 			<data>
 			t14wjuY6V7gulUkN2EwdymNXQi2dtE7WJRJahCQsBh0=
+			</data>
+		</dict>
+		<key>MonoBundle/System.Configuration.ConfigurationManager.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			SyZcn69Ju8196bOWd6jbATVgq2B2BRWvy5adNMTwGUE=
 			</data>
 		</dict>
 		<key>MonoBundle/System.Configuration.dll</key>
@@ -614,6 +691,13 @@
 			<key>hash2</key>
 			<data>
 			FpGq6UKTiRTjo31Qf/WQF9i7NQdUvrVQwGab4ObDrDc=
+			</data>
+		</dict>
+		<key>MonoBundle/System.Drawing.Common.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			iepZXMsf0ThEgMHjC9SHySr10G07BvKVMj7/YBrNkBk=
 			</data>
 		</dict>
 		<key>MonoBundle/System.Drawing.Primitives.dll</key>
@@ -1267,6 +1351,13 @@
 			NpIy8KINS5FFzyWn8rq2192E1DBfBgpPGHHZeQFUsLE=
 			</data>
 		</dict>
+		<key>MonoBundle/System.Security.Cryptography.ProtectedData.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			0YZFPuu6IeGakOT+oWwRw99Z7ZYQIBxaPG1ja5hk2EA=
+			</data>
+		</dict>
 		<key>MonoBundle/System.Security.Cryptography.X509Certificates.dll</key>
 		<dict>
 			<key>hash2</key>
@@ -1279,6 +1370,13 @@
 			<key>hash2</key>
 			<data>
 			RjlrR8Z40QIDsQ3w6Un3knhjpQjzLfvOhROGr+vdzWg=
+			</data>
+		</dict>
+		<key>MonoBundle/System.Security.Permissions.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			YgaMD2v/sOtOwcakWhZ4TK7nVl9sVATYNCCJ9P9LNxI=
 			</data>
 		</dict>
 		<key>MonoBundle/System.Security.Principal.Windows.dll</key>
@@ -1470,6 +1568,13 @@
 			Su0tb91AYgkYn0xtbGiqgx/wVCLfjdftMY7ANpZ4TV0=
 			</data>
 		</dict>
+		<key>MonoBundle/System.Windows.Extensions.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			gQ6HZ9AtcK8XO8M8wQSP8xp98BX9Rs9COjCcyJxQ3Gk=
+			</data>
+		</dict>
 		<key>MonoBundle/System.Windows.dll</key>
 		<dict>
 			<key>hash2</key>
@@ -1551,14 +1656,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3o4RBtUNKm4jIUmxBOqS63gPzZvqzf63654cQS+a5yg=
+			d1EyJyBzvTFo1I0GuEnJLPklwC2ugFAaAPfUnEDku74=
 			</data>
 		</dict>
 		<key>MonoBundle/UniversalToolBox.pdb</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HC59gTLflZuV2Rw7VFargxezKx8pKFcyxtFnl26icfU=
+			12hWDz7UBXdoAxMZdokMIrq85QDya+pi4jw2LueI+R4=
 			</data>
 		</dict>
 		<key>MonoBundle/WindowsBase.dll</key>

@@ -1,0 +1,67 @@
+@page "/ocr-recognition"
+@using IronOcr
+@inject ISnackbar Snackbar
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">OCR 识别</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                    <ButtonTemplate>
+                        <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="@context.Id">
+                            选择文件
+                        </MudButton>
+                    </ButtonTemplate>
+                </MudFileUpload>
+                <MudText Typo="Typo.body2" Class="mt-4 text-secondary">仅限于转换1M以下的文件</MudText>
+                <textarea id="FileContent" rows="20" class="mt-4" style="width: 100%; border: 1px solid #bcbebf;">
+                    @FileContent
+                </textarea>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    private string FileContent { get; set; }
+
+    private async Task UploadFiles(IBrowserFile browserFile)
+    {
+        int maxSize = 1 * 1024 * 1024;
+        if (browserFile.Size > 1 * 1024 * 1024)
+        {
+            Snackbar.Add($"文件大小不能超过{maxSize / 1024 / 1024}M", Severity.Error);
+            return;
+        }
+        Stream stream = browserFile.OpenReadStream(browserFile.Size);
+        byte[] fileBytes = new byte [stream.Length];
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            if (stream.CanSeek)
+                stream.Position = 0L;
+            await stream.CopyToAsync(memoryStream, fileBytes.Length).ConfigureAwait(false);
+            var ocr = new IronTesseract();
+            Snackbar.Add("1", Severity.Info);
+            using (var ocrInput = new OcrInput(memoryStream))
+            {
+                Snackbar.Add("2", Severity.Info);
+                ocrInput.AddImage(memoryStream);
+                Snackbar.Add("3", Severity.Info);
+                var ocrResult = ocr.Read(ocrInput);
+                Snackbar.Add("4", Severity.Info);
+                FileContent = ocrResult.Text;
+                Snackbar.Add("5", Severity.Info);
+            }
+        }
+    }
+}

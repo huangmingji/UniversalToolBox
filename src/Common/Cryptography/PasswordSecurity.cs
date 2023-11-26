@@ -2,7 +2,7 @@
 
 namespace Common.Cryptography
 {
-    public partial class Cryptography
+    public partial class AesCryptography
     {
 
         private class InvalidHashException : Exception

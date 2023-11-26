@@ -1,0 +1,115 @@
+@page "/url-parser"
+@using Common.Extend;
+@using System.Collections.Specialized
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Large" >
+    <MudText Class="mt-5" Typo="Typo.h5">URL 解析器</MudText>
+    <MudText Typo="Typo.body2">
+        解析 URL 字符串，获取 URL 各个部分的值。
+    </MudText>
+    <MudGrid Class="mt-5">
+        <MudItem xs="12">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField T="string" Label="URL 网址" Variant="Variant.Outlined" @bind-Value="@url"/>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="mt-4" OnClick="() => ParseUrl()">解析URL</MudButton>
+                    <MudTextField id="scheme" Class="mt-4" @bind-Value="scheme" Label="协议" Variant="Variant.Text" ReadOnly="true"
+                        Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(scheme));}" />
+                    <MudTextField id="username" Class="mt-4" @bind-Value="username" Label="登录名" Variant="Variant.Text" ReadOnly="true"
+                        Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(username));}" />
+                    <MudTextField id="password" Class="mt-4" @bind-Value="password" Label="密码" Variant="Variant.Text" ReadOnly="true"
+                        Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(password));}" />
+                    <MudTextField id="host" Class="mt-4" @bind-Value="host" Label="主机名" Variant="Variant.Text" ReadOnly="true"
+                        Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(host));}" />
+                    <MudTextField id="port" Class="mt-4" @bind-Value="port" Label="端口" Variant="Variant.Text" ReadOnly="true"
+                        Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(port));}" />
+                    <MudTextField id="path" Class="mt-4" @bind-Value="path" Label="路径" Variant="Variant.Text" ReadOnly="true"
+                                            Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(path));}" />
+                    <MudTextField id="fragment" Class="mt-4" @bind-Value="fragment" Label="片段" Variant="Variant.Text" ReadOnly="true"
+                                            Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(fragment));}" />
+                    <MudTextField id="query" Class="mt-4" @bind-Value="query" Label="参数" Variant="Variant.Text" ReadOnly="true"
+                        Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Material.Filled.FileCopy" OnAdornmentClick="() => { Copy(nameof(query));}" />
+                    <MudText Typo="Typo.body2" Class="mt-5 text-secondary">参数列表</MudText>
+                    <MudTable Items="@querys" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+                        <HeaderContent>
+                            <MudTh>Key</MudTh>
+                            <MudTh>Value</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Nr">
+                                <MudText Typo="Typo.body2" Class="text-secondary">
+                                    @context.Key
+                                </MudText>
+                            </MudTd>
+                            <MudTd DataLabel="Sign">
+                                <MudText Typo="Typo.body2" Class="text-secondary">
+                                    @context.Value
+                                </MudText>
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private string url = "https://username:pwd@www.baidu.com?a=1&b=2";
+    private string scheme = "";
+    private string host = "";
+    private string port = "";
+    private string path = "";
+    private string query = "";
+    private string username = "";
+    private string password = "";
+    private string fragment = "";
+
+    private Dictionary<string, string> querys = new();
+
+    private void Copy(string id)
+    {
+        JsRuntime.InvokeVoidAsync("eval", "document.getElementById('" + id + "').select(); document.execCommand('copy');");
+        Snackbar.Clear();
+        Snackbar.Add("文本已复制", Severity.Success);
+    }
+    private void ParseUrl()
+    {
+        scheme = "";
+        host = "";
+        port = "";
+        path = "";
+        query = "";
+        username = "";
+        password = "";
+        querys = new();
+        
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return;
+        }
+
+        if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+        {
+            if (!uri.UserInfo.IsNullOrWhiteSpace())
+            {
+                username = uri.UserInfo.Split(':')[0];
+                password = uri.UserInfo.Split(':')[1];
+            }
+            var nameValueCollection = url.ParseUrl(out string baseUrl);
+            foreach (var key in nameValueCollection.AllKeys)
+            {
+                querys.Add(key, nameValueCollection[key]);
+            }
+            
+            scheme = uri.Scheme;
+            host = uri.Host;
+            port = uri.Port.ToString();
+            query = uri.Query;
+            path = uri.AbsolutePath;
+            fragment = uri.Fragment;
+        }
+    }
+}

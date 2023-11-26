@@ -3,14 +3,18 @@
 @inject IJSRuntime JsRuntime
 @inject ISnackbar Snackbar
 
-<MudGrid>
+<MudText Class="mt-5" Typo="Typo.h5">文件转Base64</MudText>
+<MudText Typo="Typo.body2">
+    将上传的文件转成Base64编码的数据。
+</MudText>
+<MudGrid Class="mt-5">
     <MudItem xs="12">
         <MudCard>
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h6">文件转Base64</MudText>
-                </CardHeaderContent>
-            </MudCardHeader>
+            @* <MudCardHeader> *@
+            @*     <CardHeaderContent> *@
+            @*         <MudText Typo="Typo.h6">文件转Base64</MudText> *@
+            @*     </CardHeaderContent> *@
+            @* </MudCardHeader> *@
             <MudCardContent>
                 <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
                     <ButtonTemplate>
