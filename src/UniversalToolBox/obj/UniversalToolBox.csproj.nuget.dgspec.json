@@ -17,15 +17,15 @@
           "/Users/huangmingji/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -36,8 +36,8 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -54,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -72,15 +72,15 @@
           "/Users/huangmingji/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0-maccatalyst"
+          "net8.0-maccatalyst"
         ],
         "sources": {
           "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0-maccatalyst16.1": {
-            "targetAlias": "net7.0-maccatalyst",
+          "net8.0-maccatalyst17.0": {
+            "targetAlias": "net8.0-maccatalyst",
             "projectReferences": {
               "/Users/huangmingji/Projects/UniversalToolBox/src/Common/Common.csproj": {
                 "projectPath": "/Users/huangmingji/Projects/UniversalToolBox/src/Common/Common.csproj"
@@ -95,40 +95,29 @@
         }
       },
       "frameworks": {
-        "net7.0-maccatalyst16.1": {
-          "targetAlias": "net7.0-maccatalyst",
+        "net8.0-maccatalyst17.0": {
+          "targetAlias": "net8.0-maccatalyst",
           "dependencies": {
-            "IronOcr": {
-              "target": "Package",
-              "version": "[2023.11.35, )"
-            },
             "Microsoft.AspNetCore.Components.WebView.Maui": {
               "target": "Package",
-              "version": "[7.0.101, )",
-              "autoReferenced": true
-            },
-            "Microsoft.Extensions.Configuration": {
-              "target": "Package",
-              "version": "[7.0.0, )",
-              "autoReferenced": true
-            },
-            "Microsoft.Extensions.DependencyInjection": {
-              "target": "Package",
-              "version": "[7.0.0, )",
-              "autoReferenced": true
-            },
-            "Microsoft.Extensions.Logging": {
-              "target": "Package",
-              "version": "[7.0.0, )",
-              "autoReferenced": true
+              "version": "[8.0.3, )"
             },
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
               "version": "[7.0.0, )"
             },
-            "Microsoft.Maui.Graphics": {
+            "Microsoft.Maui.Controls": {
               "target": "Package",
-              "version": "[7.0.101, )",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.Maui.Controls.Compatibility": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )",
               "autoReferenced": true
             },
             "MudBlazor": {
@@ -152,24 +141,15 @@
             "Microsoft.MacCatalyst": {
               "privateAssets": "all"
             },
-            "Microsoft.Maui.Controls": {
-              "privateAssets": "all"
-            },
-            "Microsoft.Maui.Core": {
-              "privateAssets": "all"
-            },
-            "Microsoft.Maui.Essentials": {
-              "privateAssets": "all"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
-        "maccatalyst-x64": {
+        "maccatalyst-arm64": {
           "#import": []
         }
       }
