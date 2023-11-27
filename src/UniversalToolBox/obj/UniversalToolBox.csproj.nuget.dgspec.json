@@ -104,7 +104,7 @@
             },
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.Maui.Controls": {
               "target": "Package",
@@ -150,6 +150,9 @@
       },
       "runtimes": {
         "maccatalyst-arm64": {
+          "#import": []
+        },
+        "maccatalyst-x64": {
           "#import": []
         }
       }

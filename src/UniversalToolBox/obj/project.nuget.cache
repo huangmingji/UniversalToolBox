@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wEu5GPaQAWp5jMq/5ZeybCfKZNbr7KdC7LxIMDOgl6hPQ0qvzJ0SOC4kBf//MRgO7ZSJg4bLAugP/VUhVvIevQ==",
+  "dgSpecHash": "DfxDPJGYIo/+6RhIn9dHPICMB+UE0RSGKrxDF1TRMuHXBWSFGs4tDyA4vg/HcRP/dmmeQIvnSJjAsBzDZjlSiw==",
   "success": true,
   "projectFilePath": "/Users/huangmingji/Projects/UniversalToolBox/src/UniversalToolBox/UniversalToolBox.csproj",
   "expectedPackageFiles": [
@@ -28,7 +28,7 @@
     "/Users/huangmingji/.nuget/packages/microsoft.extensions.localization.abstractions/7.0.5/microsoft.extensions.localization.abstractions.7.0.5.nupkg.sha512",
     "/Users/huangmingji/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
     "/Users/huangmingji/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "/Users/huangmingji/.nuget/packages/microsoft.extensions.logging.debug/7.0.0/microsoft.extensions.logging.debug.7.0.0.nupkg.sha512",
+    "/Users/huangmingji/.nuget/packages/microsoft.extensions.logging.debug/8.0.0/microsoft.extensions.logging.debug.8.0.0.nupkg.sha512",
     "/Users/huangmingji/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
     "/Users/huangmingji/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/Users/huangmingji/.nuget/packages/microsoft.jsinterop/8.0.0/microsoft.jsinterop.8.0.0.nupkg.sha512",
